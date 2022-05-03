@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: git-service
+  labels:
+    app: krateo.io
+    component: git-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: git-service
+  template:
+    metadata:
+      labels:
+        component: git-service
+    spec:
+      containers:
+        - name: git-service
+          image: {{ .Values.registry.images.git }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 8080
+            timeoutSeconds: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 8080
+            timeoutSeconds: 5
+            periodSeconds: 30
+          envFrom:
+            - configMapRef:
+                name: krateo-uri-config
+          env:
+            - name: 'LOG_LEVEL'
+              value: {{ .Values.log.level }}
+      imagePullSecrets:
+        - name: registry-credentials

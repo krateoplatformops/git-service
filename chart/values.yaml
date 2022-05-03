@@ -1,0 +1,6 @@
+registry:
+  images:
+    git: ghcr.io/krateoplatformops/git-service:latest
+
+log:
+  level: "debug"
