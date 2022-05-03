@@ -4,3 +4,6 @@ registry:
 
 log:
   level: "debug"
+
+git:
+  host: "git.krateo.site"
