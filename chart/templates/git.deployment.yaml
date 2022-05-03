@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: git-service
+  name: git
   labels:
     app: krateo.io
-    component: git-service
+    component: git
 spec:
   replicas: 1
   selector:
     matchLabels:
-      component: git-service
+      component: git
   template:
     metadata:
       labels:
-        component: git-service
+        component: git
     spec:
       containers:
-        - name: git-service
+        - name: git
           image: {{ .Values.registry.images.git }}
           imagePullPolicy: Always
           ports:
