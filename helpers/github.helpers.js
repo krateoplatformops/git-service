@@ -59,13 +59,13 @@ const readActionsByName = async (endpoint, parsed, name) => {
     pipeline: {
       id: workflow.id,
       name: workflow.name,
-      icon: 'fa-brands fa-github'
-      // repository: uriHelpers.concatUrl([
-      //   'https://',
-      //   parsed.domain,
-      //   parsed.pathList[0],
-      //   parsed.pathList[1]
-      // ])
+      icon: 'fa-brands fa-github',
+      repository: uriHelpers.concatUrl([
+        'https://',
+        parsed.domain,
+        parsed.pathList[0],
+        parsed.pathList[1]
+      ])
     },
     runs: runs.data.workflow_runs.map((r) => ({
       id: r.id,

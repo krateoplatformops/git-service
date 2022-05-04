@@ -3,7 +3,7 @@ registry:
     git: ghcr.io/krateoplatformops/git-service:latest
 
 log:
-  level: "debug"
+  level: "info"
 
 git:
   host: "git.krateo.site"
