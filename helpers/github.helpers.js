@@ -17,8 +17,12 @@ const downloadFile = async (
     fileName
   ])
 
+  const token = endpoint.secret.find((x) => x.key === 'token')
+
   const response = await axios.get(api, {
-    headers: endpoint.headers
+    headers: {
+      Authorization: `token ${token.val}`
+    }
   })
   return stringHelpers.b64toAscii(response.data.content)
 }
@@ -32,8 +36,12 @@ const readActionsByName = async (endpoint, parsed, name) => {
     'actions/workflows'
   ])
 
+  const token = endpoint.secret.find((x) => x.key === 'token')
+
   const workflows = await axios.get(wUrl, {
-    headers: endpoint.headers
+    headers: {
+      Authorization: `token ${token.val}`
+    }
   })
 
   const workflow = workflows.data.workflows.find((w) => w.name === name)
@@ -51,8 +59,11 @@ const readActionsByName = async (endpoint, parsed, name) => {
     workflow.id,
     'runs?per_page=10'
   ])
+
   const runs = await axios.get(rUrl, {
-    headers: endpoint.headers
+    headers: {
+      Authorization: `token ${token.val}`
+    }
   })
 
   return {
