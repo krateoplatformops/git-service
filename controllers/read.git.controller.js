@@ -26,7 +26,7 @@ router.get('/repository/:url', async (req, res, next) => {
   }
 })
 
-router.get('/file/:url/:filename', async (req, res, next) => {
+router.get('/file/:url/:endpoint/:filename', async (req, res, next) => {
   try {
     const parsed = uriHelpers.parse(stringHelpers.b64toAscii(req.params.url))
 
@@ -34,9 +34,10 @@ router.get('/file/:url/:filename', async (req, res, next) => {
 
     const endpointUrl = uriHelpers.concatUrl([
       envConstants.ENDPOINT_URI,
-      'domain',
-      parsed.domain
+      'name',
+      stringHelpers.b64toAscii(req.params.endpoint)
     ])
+
     const endpoint = (await axios.get(endpointUrl)).data
 
     switch (endpoint?.type) {
@@ -58,15 +59,16 @@ router.get('/file/:url/:filename', async (req, res, next) => {
   }
 })
 
-router.get('/pipeline/:url/:name', async (req, res, next) => {
+router.get('/pipeline/:url/:endpoint/:name', async (req, res, next) => {
   try {
     const parsed = uriHelpers.parse(stringHelpers.b64toAscii(req.params.url))
 
     const endpointUrl = uriHelpers.concatUrl([
       envConstants.ENDPOINT_URI,
-      'domain',
-      parsed.domain
+      'name',
+      stringHelpers.b64toAscii(req.params.endpoint)
     ])
+
     const endpoint = (await axios.get(endpointUrl)).data
 
     switch (endpoint?.type) {
