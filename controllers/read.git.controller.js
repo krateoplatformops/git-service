@@ -1,9 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const axios = require('axios')
 const uriHelpers = require('../helpers/uri.helpers')
 const gitHubHelpers = require('../helpers/github.helpers')
-const { envConstants } = require('../constants')
 const stringHelpers = require('../helpers/string.helpers')
 const { logger } = require('../helpers/logger.helpers')
 
@@ -26,26 +24,20 @@ router.get('/repository/:url', async (req, res, next) => {
   }
 })
 
-router.get('/file/:url/:endpoint/:filename', async (req, res, next) => {
+router.get('/file/:url/:endpoint/:name', async (req, res, next) => {
   try {
     const parsed = uriHelpers.parse(stringHelpers.b64toAscii(req.params.url))
 
     logger.debug(JSON.stringify(parsed))
 
-    const endpointUrl = uriHelpers.concatUrl([
-      envConstants.ENDPOINT_URI,
-      'name',
-      stringHelpers.b64toAscii(req.params.endpoint)
-    ])
-
-    const endpoint = (await axios.get(endpointUrl)).data
+    const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
 
     switch (endpoint?.type) {
       case 'github':
         const content = await gitHubHelpers.downloadFile(
           endpoint,
           parsed,
-          stringHelpers.b64toAscii(req.params.filename)
+          stringHelpers.b64toAscii(req.params.name)
         )
         res.status(200).json({
           content
@@ -63,13 +55,9 @@ router.get('/pipeline/:url/:endpoint/:name', async (req, res, next) => {
   try {
     const parsed = uriHelpers.parse(stringHelpers.b64toAscii(req.params.url))
 
-    const endpointUrl = uriHelpers.concatUrl([
-      envConstants.ENDPOINT_URI,
-      'name',
-      stringHelpers.b64toAscii(req.params.endpoint)
-    ])
+    const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
 
-    const endpoint = (await axios.get(endpointUrl)).data
+    logger.debug(endpoint)
 
     switch (endpoint?.type) {
       case 'github':
