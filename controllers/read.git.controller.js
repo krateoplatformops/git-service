@@ -32,9 +32,17 @@ router.get('/file/:url/:endpoint/:name', async (req, res, next) => {
 
     const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
 
+    let content = null
     switch (endpoint?.type) {
       case 'github':
-        const content = await gitHubHelpers.downloadFile(
+        content = await gitHubHelpers.downloadFile(
+          endpoint,
+          parsed,
+          stringHelpers.b64toAscii(req.params.name)
+        )
+        break
+      case 'bitbucket':
+        content = await bitbucketHelpers.downloadFile(
           endpoint,
           parsed,
           stringHelpers.b64toAscii(req.params.name)
@@ -46,6 +54,9 @@ router.get('/file/:url/:endpoint/:name', async (req, res, next) => {
       default:
         throw new Error(`Unsupported endpoint ${parsed.domain}`)
     }
+    res.status(200).json({
+      content
+    })
   } catch (error) {
     next(error)
   }

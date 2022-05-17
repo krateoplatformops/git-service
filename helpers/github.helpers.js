@@ -36,6 +36,8 @@ const readActionsByName = async (endpoint, parsed, name) => {
     'actions/workflows'
   ])
 
+  console.log(wUrl)
+
   const token = endpoint.secret.find((x) => x.key === 'token')
 
   const workflows = await axios.get(wUrl, {
