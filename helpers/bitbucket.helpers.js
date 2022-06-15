@@ -27,7 +27,7 @@ const downloadFile = async (
       Authorization: `Bearer ${bearer.val}`
     }
   })
-  return stringHelpers.b64toAscii(response.data)
+  return response.data
 }
 
 module.exports = {
