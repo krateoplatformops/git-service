@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const uriHelpers = require('../helpers/uri.helpers')
 const gitHubHelpers = require('../helpers/github.helpers')
-const gitHubHelpers = require('../helpers/bitbucket.helpers')
+const bitbucketHelpers = require('../helpers/bitbucket.helpers')
 const stringHelpers = require('../helpers/string.helpers')
 const { logger } = require('../helpers/logger.helpers')
 
