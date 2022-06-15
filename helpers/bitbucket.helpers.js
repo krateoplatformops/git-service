@@ -1,6 +1,7 @@
 const axios = require('axios')
 const uriHelpers = require('./uri.helpers')
 const stringHelpers = require('./string.helpers')
+const { logger } = require('./logger.helpers')
 
 const downloadFile = async (
   endpoint,
@@ -16,6 +17,8 @@ const downloadFile = async (
     'raw',
     fileName
   ])
+
+  logger.debug(api)
 
   const bearer = endpoint.secret.find((x) => x.key === 'bearer')
 
