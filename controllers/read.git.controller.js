@@ -48,9 +48,6 @@ router.get('/file/:url/:endpoint/:name', async (req, res, next) => {
           parsed,
           stringHelpers.b64toAscii(req.params.name)
         )
-        res.status(200).json({
-          content
-        })
         break
       default:
         throw new Error(`Unsupported endpoint ${parsed.domain}`)
