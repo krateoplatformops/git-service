@@ -30,10 +30,10 @@ router.get('/repository/:endpoint/:url', async (req, res, next) => {
           base: uriHelpers.concatUrl([
             parsed.schema + '://',
             parsed.domain,
-            'projects',
             parsed.pathList[0],
-            'repos',
-            parsed.pathList[1]
+            parsed.pathList[1],
+            parsed.pathList[2],
+            parsed.pathList[3]
           ])
         })
         break
