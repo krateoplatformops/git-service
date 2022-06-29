@@ -6,20 +6,40 @@ const bitbucketHelpers = require('../helpers/bitbucket.helpers')
 const stringHelpers = require('../helpers/string.helpers')
 const { logger } = require('../helpers/logger.helpers')
 
-router.get('/repository/:url', async (req, res, next) => {
+router.get('/repository/:endpoint/:url', async (req, res, next) => {
   try {
     const parsed = uriHelpers.parse(stringHelpers.b64toAscii(req.params.url))
 
     logger.debug(JSON.stringify(parsed))
 
-    res.status(200).json({
-      base: uriHelpers.concatUrl([
-        parsed.schema + '://',
-        parsed.domain,
-        parsed.pathList[0],
-        parsed.pathList[1]
-      ])
-    })
+    const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
+
+    switch (endpoint?.type) {
+      case 'github':
+        res.status(200).json({
+          base: uriHelpers.concatUrl([
+            parsed.schema + '://',
+            parsed.domain,
+            parsed.pathList[0],
+            parsed.pathList[1]
+          ])
+        })
+        break
+      case 'bitbucket':
+        res.status(200).json({
+          base: uriHelpers.concatUrl([
+            parsed.schema + '://',
+            parsed.domain,
+            'projects',
+            parsed.pathList[0],
+            'repos',
+            parsed.pathList[1]
+          ])
+        })
+        break
+      default:
+        throw new Error(`Unsupported endpoint ${parsed.domain}`)
+    }
   } catch (error) {
     next(error)
   }
