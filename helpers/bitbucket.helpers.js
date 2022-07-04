@@ -11,9 +11,9 @@ const downloadFile = async (
   const api = uriHelpers.concatUrl([
     endpoint.target,
     'projects/',
-    parsed.pathList[1],
+    parsed.pathList[0],
     'repos',
-    parsed.pathList[3],
+    parsed.pathList[1],
     'raw',
     fileName
   ])
