@@ -8,12 +8,19 @@ const downloadFile = async (
   parsed,
   fileName = parsed.pathList[parsed.pathList.length - 1]
 ) => {
+  let prj = parsed.pathList[0]
+  let repo = parsed.pathList[1]
+  if (parsed.pathList.length > 2) {
+    prj = parsed.pathList[1]
+    repo = parsed.pathList[3]
+  }
+
   const api = uriHelpers.concatUrl([
     endpoint.target,
     'projects/',
-    parsed.pathList[0],
+    prj,
     'repos',
-    parsed.pathList[1],
+    repo,
     'raw',
     fileName
   ])
