@@ -29,11 +29,16 @@ const downloadFile = async (
 
   const bearer = endpoint.secret.find((x) => x.key === 'bearer')
 
+  logger.debug(JSON.stringify(bearer))
+
   const response = await axios.get(api, {
     headers: {
       Authorization: `Bearer ${bearer.val}`
     }
   })
+
+  logger.debug(JSON.stringify(response.data))
+
   return response.data
 }
 
