@@ -1,83 +1,80 @@
 const express = require('express')
 const router = express.Router()
-const uriHelpers = require('../helpers/uri.helpers')
 const gitHubHelpers = require('../helpers/github.helpers')
 const bitbucketHelpers = require('../helpers/bitbucket.helpers')
-const stringHelpers = require('../helpers/string.helpers')
 const { logger } = require('../helpers/logger.helpers')
+const secretHelpers = require('../helpers/secret.helpers')
 
-router.get('/repository/:endpoint/:url', async (req, res, next) => {
+router.get('/:endpointName/:docs', async (req, res, next) => {
   try {
-    const parsed = uriHelpers.parse(stringHelpers.b64toAscii(req.params.url))
+    const endpointName = req.params.endpointName
+    const docs = req.params.docs
 
-    logger.debug(JSON.stringify(parsed))
+    // get endpoint
+    const endpoint = await secretHelpers.getEndpoint(endpointName)
+    logger.debug(endpoint)
 
-    const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
-
-    switch (endpoint?.type) {
-      case 'github':
-        res.status(200).json({
-          base: uriHelpers.concatUrl([
-            parsed.schema + '://',
-            parsed.domain,
-            parsed.pathList[0],
-            parsed.pathList[1]
-          ])
-        })
-        break
-      case 'bitbucket':
-        res.status(200).json({
-          base: uriHelpers.concatUrl([
-            parsed.schema + '://',
-            parsed.domain,
-            parsed.pathList[0],
-            parsed.pathList[1],
-            parsed.pathList[2],
-            parsed.pathList[3]
-          ])
-        })
-        break
-      default:
-        throw new Error(`Unsupported endpoint ${parsed.domain}`)
+    if (!endpoint) {
+      return res.status(404).send({ message: 'Endpoint not found' })
     }
-  } catch (error) {
-    next(error)
-  }
-})
-
-router.get('/file/:url/:endpoint/:name', async (req, res, next) => {
-  try {
-    const parsed = uriHelpers.parse(stringHelpers.b64toAscii(req.params.url))
-
-    logger.debug(JSON.stringify(parsed))
-
-    const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
 
     let content = null
-    switch (endpoint?.type) {
+    switch (endpoint.metadata.type) {
       case 'github':
-        content = await gitHubHelpers.downloadFile(
-          endpoint,
-          parsed,
-          stringHelpers.b64toAscii(req.params.name)
-        )
+        res.status(200).json({
+          list: await gitHubHelpers.downloadFile(endpoint, docs)
+        })
         break
       case 'bitbucket':
-        content = await bitbucketHelpers.downloadFile(
-          endpoint,
-          parsed,
-          stringHelpers.b64toAscii(req.params.name)
-        )
+        res.status(200).json({
+          list: await bitbucketHelpers.downloadFile(endpoint, docs)
+        })
         break
       default:
         throw new Error(`Unsupported endpoint ${parsed.domain}`)
     }
-    res.status(200).json({
-      content
-    })
   } catch (error) {
     next(error)
   }
 })
+
+// router.get('/repository/:endpoint/:url', async (req, res, next) => {
+//   try {
+//     const parsed = uriHelpers.parse(stringHelpers.b64toAscii(req.params.url))
+
+//     logger.debug(JSON.stringify(parsed))
+
+//     const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
+
+//     switch (endpoint?.type) {
+//       case 'github':
+//         res.status(200).json({
+//           base: uriHelpers.concatUrl([
+//             parsed.schema + '://',
+//             parsed.domain,
+//             parsed.pathList[0],
+//             parsed.pathList[1]
+//           ])
+//         })
+//         break
+//       case 'bitbucket':
+//         res.status(200).json({
+//           base: uriHelpers.concatUrl([
+//             parsed.schema + '://',
+//             parsed.domain,
+//             parsed.pathList[0],
+//             parsed.pathList[1],
+//             parsed.pathList[2],
+//             parsed.pathList[3]
+//           ])
+//         })
+//         break
+//       default:
+//         throw new Error(`Unsupported endpoint ${parsed.domain}`)
+//     }
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
 module.exports = router

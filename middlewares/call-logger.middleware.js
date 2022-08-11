@@ -13,13 +13,13 @@ module.exports = (req, res, next) => {
   if (!skip) {
     logger.info(`${req.path} - ${req.method} - ${req.ip}`)
     if (Object.keys(req.body).length > 0) {
-      logger.debug(JSON.stringify(req.body))
+      logger.debug(req.body)
     }
     if (Object.keys(req.params).length > 0) {
-      logger.debug(JSON.stringify(req.params))
+      logger.debug(req.params)
     }
     if (Object.keys(req.query).length > 0) {
-      logger.debug(JSON.stringify(req.query))
+      logger.debug(req.query)
     }
   }
 
