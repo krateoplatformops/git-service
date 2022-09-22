@@ -1,15 +1,12 @@
 const axios = require('axios')
-const uriHelpers = require('./uri.helpers')
-const stringHelpers = require('./string.helpers')
-const { logger } = require('./logger.helpers')
+const uriHelpers = require('../service-library/helpers/uri.helpers')
+const logger = require('../service-library/helpers/logger.helpers')
 
 const downloadFile = async (endpoint, docs) => {
   const token = endpoint.data.find((x) => x.key === 'token')
   const headers = {
     Authorization: `token ${token.val}`
   }
-
-  console.log(headers)
 
   const regex = /(?<=\[)[^\]\[]*(?=])/gm
 

@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const gitHubHelpers = require('../helpers/github.helpers')
 const bitbucketHelpers = require('../helpers/bitbucket.helpers')
-const { logger } = require('../helpers/logger.helpers')
-const secretHelpers = require('../helpers/secret.helpers')
+const logger = require('../service-library/helpers/logger.helpers')
+const secretHelpers = require('../service-library/helpers/secret.helpers')
 
 router.get('/:endpointName/:docs', async (req, res, next) => {
   try {
