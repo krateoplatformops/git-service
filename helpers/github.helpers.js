@@ -3,9 +3,9 @@ const uriHelpers = require('../service-library/helpers/uri.helpers')
 const logger = require('../service-library/helpers/logger.helpers')
 
 const downloadFile = async (endpoint, docs) => {
-  const token = endpoint.data.find((x) => x.key === 'token')
+  const token = endpoint.data['token']
   const headers = {
-    Authorization: `token ${token.val}`
+    Authorization: `token ${token}`
   }
 
   const regex = /(?<=\[)[^\]\[]*(?=])/gm

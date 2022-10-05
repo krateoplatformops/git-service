@@ -4,9 +4,9 @@ const stringHelpers = require('../service-library/helpers/string.helpers')
 const logger = require('../service-library/helpers/logger.helpers')
 
 const downloadFile = async (endpoint, docs) => {
-  const bearer = endpoint.secret.find((x) => x.key === 'bearer')
+  const bearer = endpoint.data['bearer']
   const headers = {
-    Authorization: `Bearer ${bearer.val}`
+    Authorization: `Bearer ${bearer}`
   }
 
   const regex = /(?<=\[)[^\]\[]*(?=])/gm
