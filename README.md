@@ -1,1 +1,1 @@
-# Krateo Git Service
+# Git Service
