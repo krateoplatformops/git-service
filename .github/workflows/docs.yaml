@@ -21,3 +21,4 @@ jobs:
           remote_repository: https://github.com/krateoplatformops/krateo-docs
           access_token: ${{ secrets.HELM_CHARTS_BOT }}
           target_dir: docs/services
+          target_branch: main
