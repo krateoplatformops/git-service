@@ -16,12 +16,11 @@ jobs:
         run: |
           mv README.md ${{ github.event.repository.name }}.md
       - name: Set subfolder
-        run: echo "::set-output name=SUB_FOLDER::$(echo "${{ github.event.repository.name }}" | grep -o '[^-]*$')"
-        id: splitter
+        run: echo "SUB_FOLDER=$(echo "${{ github.event.repository.name }}" | grep -o '[^-]*$')" >> $GITHUB_ENV
       - uses: GuillaumeFalourd/copy-push-files@v1
         with:
           source_files: ${{ github.event.repository.name }}.md
           remote_repository: https://github.com/krateoplatformops/krateo-docs
           access_token: ${{ secrets.HELM_CHARTS_BOT }}
-          target_dir: docs/${{ steps.splitter.outputs.SUB_FOLDER }}
+          target_dir: docs/${{ $SUB_FOLDER }}s
           target_branch: main
