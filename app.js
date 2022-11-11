@@ -19,7 +19,7 @@ app.use(callLoggerMiddleware)
 app.use(listMiddleware)
 
 /* Routes */
-const statusRoutes = require('./routes/status.routes')
+const statusRoutes = require('./service-library/routes/status.routes')
 const gitRoutes = require('./routes/git.routes')
 
 app.use('/', statusRoutes)
