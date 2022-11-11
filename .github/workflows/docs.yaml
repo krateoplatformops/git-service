@@ -3,7 +3,7 @@ name: Build docs
 on:
   push:
     paths:
-      - "**.md"
+      - '**.md'
 
 jobs:
   build:

@@ -3,12 +3,12 @@ const uriHelpers = require('../service-library/helpers/uri.helpers')
 const logger = require('../service-library/helpers/logger.helpers')
 
 const downloadFile = async (endpoint, docs) => {
-  const token = endpoint.data['token']
+  const token = endpoint.data.token
   const headers = {
     Authorization: `token ${token}`
   }
 
-  const regex = /(?<=\[)[^\]\[]*(?=])/gm
+  const regex = /(?<=\[)[^\][]*(?=])/gm
 
   return await Promise.all(
     docs.split(',').map(async (p) => {

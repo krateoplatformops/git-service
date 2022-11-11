@@ -4,12 +4,12 @@ const stringHelpers = require('../service-library/helpers/string.helpers')
 const logger = require('../service-library/helpers/logger.helpers')
 
 const downloadFile = async (endpoint, docs) => {
-  const bearer = endpoint.data['bearer']
+  const bearer = endpoint.data.bearer
   const headers = {
     Authorization: `Bearer ${bearer}`
   }
 
-  const regex = /(?<=\[)[^\]\[]*(?=])/gm
+  const regex = /(?<=\[)[^\][]*(?=])/gm
 
   return await Promise.all(
     docs.split(',').map(async (p) => {

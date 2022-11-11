@@ -18,7 +18,6 @@ router.get('/:endpointName/:docs', async (req, res, next) => {
       return res.status(404).send({ message: 'Endpoint not found' })
     }
 
-    let content = null
     switch (endpoint.metadata.type) {
       case 'github':
         res.status(200).json({
@@ -31,7 +30,7 @@ router.get('/:endpointName/:docs', async (req, res, next) => {
         })
         break
       default:
-        throw new Error(`Unsupported endpoint ${parsed.domain}`)
+        throw new Error(`Unsupported endpoint ${endpointName}`)
     }
   } catch (error) {
     next(error)
