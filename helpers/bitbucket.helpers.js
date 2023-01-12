@@ -20,9 +20,9 @@ const downloadFile = async (endpoint, docs) => {
       const api = uriHelpers.concatUrl([
         endpoint.target,
         'projects/',
-        scopes[1],
+        scopes[0],
         'repos',
-        scopes[3],
+        scopes[1],
         'raw',
         name
       ])
