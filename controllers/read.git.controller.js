@@ -3,6 +3,7 @@ const router = express.Router()
 const gitHubHelpers = require('../helpers/github.helpers')
 const bitbucketHelpers = require('../helpers/bitbucket.helpers')
 const azuredevopsHelpers = require('../helpers/azuredevops.helpers')
+const gitlabHelpers = require('../helpers/gitlab.helpers')
 const logger = require('../service-library/helpers/logger.helpers')
 const secretHelpers = require('../service-library/helpers/secret.helpers')
 
@@ -33,6 +34,11 @@ router.get('/:endpointName/:docs', async (req, res, next) => {
       case 'azuredevops':
         res.status(200).json({
           list: await azuredevopsHelpers.downloadFile(endpoint, docs)
+        })
+        break
+      case 'gitlab':
+        res.status(200).json({
+          list: await gitlabHelpers.downloadFile(endpoint, docs)
         })
         break
       default:
