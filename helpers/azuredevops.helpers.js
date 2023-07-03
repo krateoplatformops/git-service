@@ -29,6 +29,10 @@ const downloadFile = async (endpoint, docs) => {
     accept: '*/*'
   }
 
+  logger.debug('endpoint.data.token=' + endpoint.data.token)
+  logger.debug('endpoint.targer=' + endpoint.target)
+  logger.debug('docs=' + docs)
+
   const regex = /(?<=\[)[^\][]*(?=])/gm
 
   return await Promise.all(
