@@ -24,7 +24,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
           push: true
           tags: ghcr.io/krateoplatformops/${{ github.event.repository.name }}:${{steps.tag.outputs.tag}}
           build-args: 'VERSION=${{ steps.tag.outputs.tag }}'
