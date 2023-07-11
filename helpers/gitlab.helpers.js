@@ -21,6 +21,10 @@ const downloadFile = async (endpoint, docs) => {
     'PRIVATE-TOKEN': token
   }
 
+  logger.debug('endpoint.data.token=' + endpoint.data.token)
+  logger.debug('endpoint.target=' + endpoint.target)
+  logger.debug('docs=' + docs)
+
   const regex = /(?<=\[)[^\][]*(?=])/gm
 
   return await Promise.all(
